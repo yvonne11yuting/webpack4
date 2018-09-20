@@ -27,7 +27,7 @@ yarn add webpack webpack-cli -D
 * --save is: 專案運行時會用到的package / save the package required for the application to run.
 
 為 **webpack** 增加npm scripts在 **package.json** 裡
-```
+```json
 "scripts": {
   "build": "webpack --mode production"
 }
@@ -274,6 +274,27 @@ wrapper ? ReactDOM.render(<FormContainer />, wrapper) : false;
 yarn run build
 ```
 就能看到我們在./dist資料夾看到webpack就會自動幫我們綁定javascript
+
+## Step6: webpack dev server
+好溜，我們不會每次調整一個小東西就執行一次build<br>
+這裡要安裝webpack-dev-server讓我們開發更順暢<br>
+之後每當檔案有修改儲存後，webpack dev server就會幫我們自動刷新頁面囉
+```
+yarn add webpack-dev-server -D
+```
+安裝完後我們進到package.json改一下npm scripts，更新後的scripts如下
+```json
+  "scripts": {
+    "start": "webpack-dev-server --open --mode development",
+    "build": "webpack --mode production"
+  }
+```
+然後在Terminal執行
+```
+yarn start
+```
+大功告成！
+
 
 # reference
 [Tutorial: How to set up React, webpack 4, and Babel 7 (2018)](https://www.valentinog.com/blog/react-webpack-babel/)
