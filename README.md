@@ -194,7 +194,86 @@ yarn run build
 ```
 執行完後可以在./dist/main.js看到我們編譯後的javascript
 
+## Step5: the HTML webpack plugin
+接下來要做的事就是透過webpack幫我們生成一個html檔把我們的react component放在<script></script>裡面。
 
+首先安裝相關的package
+```
+yarn add html-webpack-plugin html-loader -D
+```
+接著更新webpack的設定檔(webpack.config.js)<br>
+這次更新的部分為增加html-loader，並加入html-webpack-plugin設定
+```javascript
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader"
+          }
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: "./src/index.html",
+      filename: "./index.html"
+    })
+  ]
+};
+```
+再來在./src下新增index.html<br>
+這邊使用了Bootstrap作為CSS library，反正這部分不太重要大家隨意就好
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" >
+    <title>How to set up React, Webpack, and Babel</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-4 offset-md-1">
+                <p>Create a new article</p>
+                <div id="create-article-form">
+                    <!-- form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+```
+裡面的重點是這個
+```html
+<div id="create-article-form"></div>
+```
+等等要render reactDOM就是抓這個element Id
+
+最後一步就是在./src/js/components/container/FormContainer.js的程式碼最底部加上以下程式碼綁定element
+```javascript
+const wrapper = document.getElementById("create-article-form");
+wrapper ? ReactDOM.render(<FormContainer />, wrapper) : false;
+```
+
+此時再執行
+```
+yarn run build
+```
+就能看到我們在./dist資料夾看到webpack就會自動幫我們綁定javascript
 
 # reference
 [Tutorial: How to set up React, webpack 4, and Babel 7 (2018)](https://www.valentinog.com/blog/react-webpack-babel/)
