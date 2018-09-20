@@ -1,0 +1,8 @@
+{
+  "name": "webpack4",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:yvonne11yuting/webpack4.git",
+  "author": "YuTing Huang <yutingeko@gmail.com>",
+  "license": "MIT"
+}
